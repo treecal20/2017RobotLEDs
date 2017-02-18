@@ -1,0 +1,57 @@
+#include <Adafruit_NeoPixel.h>
+
+#define LEDPIN 4
+#define LED_COUNT 13
+
+#define RIOPORT1 13
+#define RIOPORT2 12
+
+
+Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, LEDPIN, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  // put your setup code here, to run once:
+
+  leds.begin();  // Call this to start up the LED strip.
+  clearLEDs();   // This function, defined below, turns all LEDs off...
+  leds.show();   // ...but the LEDs don't actually update until you call this.
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+  if((digitalRead(RIOPORT1) == HIGH) && (digitalRead(RIOPORT2) == HIGH))
+  {
+    leds.setPixelColor(0, leds.Color(55, 55, 55));
+    leds.show();
+  }
+  else if((digitalRead(RIOPORT1) == LOW) && (digitalRead(RIOPORT2) == HIGH))
+  {
+    leds.setPixelColor(0, leds.Color(0, 0, 55));
+    leds.show();
+  }
+  else if((digitalRead(RIOPORT1) == HIGH) && (digitalRead(RIOPORT2) == LOW))
+  {
+    leds.setPixelColor(0, leds.Color(0, 55, 0));
+    leds.show();
+  }
+  else 
+  {
+    leds.setPixelColor(0, leds.Color(55, 0, 0));
+    leds.show();
+  }
+  
+  delay(10);
+  
+}
+
+// Sets all LEDs to off, but DOES NOT update the display;
+// call leds.show() to actually turn them off after this.
+void clearLEDs()
+{
+  for (int i=0; i<LED_COUNT; i++)
+  {
+    leds.setPixelColor(i, 0);
+  }
+}
